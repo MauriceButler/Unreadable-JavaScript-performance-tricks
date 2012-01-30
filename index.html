@@ -1,0 +1,448 @@
+<!doctype html>
+<html>
+<head>
+    <title>Confusing & completely unreadable JavaScript performance tricks that you will
+        most probably never use, & some you might... | by Maurice Butler @butlermaurice
+    </title>
+
+    <link href="css/impress.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+
+</head>
+<body>
+    <div id="impress" class="impress-not-supported">
+        <div class="fallback-message">
+            Your trojan doesn't support impress.js. Get with the times and <a href="https://www.google.com/chrome">
+                install Chrome</a> already...
+        </div>
+
+        <div id="firstslide" class="step">
+            Confusing & completely unreadable JavaScript performance tricks that you will most
+            probably never use,
+        </div>
+
+        <div class="step" data-x="120" data-y="85" data-scale="0.1">
+            & some you might...
+        </div>
+
+        <div class="step" data-x="350" data-y="-250"  data-rotate="90">
+            So who am I?
+        </div>
+
+        <div id="spacecowboy" class="step" data-x="500" data-y="-1000" data-scale="0.5">
+           Some people call me the space cowboy...<img src="images/SpaceCowboy.png" style="display: block; margin-left: auto; margin-right: auto;" /> 
+        </div>
+
+        <div id="gangster" class="step" data-x="500" data-y="-1000" data-scale="0.3">
+            Some call me the gangster of love...<img src="images/GangsterOfLove.png" style="display: block; margin-left: auto; margin-right: auto;" />  
+        </div>
+ 
+        <div id="fluffy" class="step" data-x="500" data-y="-1000" data-scale="0.1">
+            Some call me that fluffy guy from Madagascar...
+            <img src="images/Maurice.png" style="float:right; margin:10px 200px 0 0;"/>  
+        </div>
+ 
+        <div class="step" data-y="600" >
+            Most however call me Maurice Butler.
+      
+           <img src="images/Twitter.png" style="float:left; margin:10px 10px 0 0;" /> 
+            <a href="https://twitter.com/ButlerMaurice" target="_blank">@butlermaurice</a>
+            <a href="http://mauricebutler.wordpress.com" target="_blank">mauricebutler.wordpress.com</a>
+            <a href="https://github.com/MauriceButler" target="_blank">github.com/MauriceButler</a>
+            Senior Analyst Programmer at Sunsuper
+        </div>
+ 
+        <div class="step" data-x="1500" data-y="-1400" >
+          <strong>Disclaimer: </strong>Most of the items I am going to go through are very situation dependant.
+           Most are only worth while inside loops or heavily utilised code (~500,000 ops/sec). Please don't use these all over the place... 
+        </div>
+
+        <div class="step" data-x="1500" data-y="-1000" >
+            If you havn't already heard of <a href="http://jsperf.com" target="_blank">jsPerf</a>, you need to check it out.			            
+        </div>
+        <div class="step" data-x="1500" data-y="-700" >
+            From the site: <br />
+            <i>jsPerf aims to provide an easy way to create and share test cases, comparing the performance 
+            of different JavaScript snippets by running benchmarks.</i>			            
+        </div>  
+       
+        <!--Unary Operators-->
+        <div class="step" data-x="1500" data-y="-150" >
+            <img src="images/unicycle.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>The Unary + <i>(or -)</i> Operator.</strong></div>
+        </div>
+
+        <div class="step" data-x="1500" data-y="150" >
+            The unary + operator can be used to coerce all javascript types to a <i>Number</i>.           
+        </div>
+
+        <div class="step" data-x="1500" data-y="375" >
+              When used on types other than <i>String</i>, it will call <i>valueOf()</i> or <i>toString()</i> (in that order) and then attempt to convert the result to a <i>Number</i>.
+        </div>
+
+       
+        <div class="step" data-x="1500" data-y="700" >
+              For Example:
+                <pre class="brush: js; gutter: false; ">
+                    var string = "123",
+                        bool = true,
+                        date = new Date(),
+                        object1 = {},
+                        object2 = {};
+                    
+                    object1.valueOf = function() {
+                        return "456";
+                    };
+                    
+                    object2.toString = function() {
+                        return "0x315";
+                    };
+                    
+                    alert(+string);  // 123
+                    alert(+bool);    // 1
+                    alert(+date);    // seconds since Unix epoch
+                    alert(+object1); // 456
+                    alert(+object2); // 789
+                </pre>
+        </div>
+
+        <div class="step" data-x="1500" data-y="1000" >
+              As you can see from the <a href="http://jsperf.com/unary-vs-parseint-2" target="_blank">jsPerf results</a>, the unary operator approach is faster than a parseInt() in some circumstances.
+        </div>
+
+        <div class="step" data-x="1500" data-y="1250" >
+              While not exactly readable, depending on your target browsers, situation, etc this may be a valid option.
+        </div>
+
+        <!-- Bitwise Xor and Or -->
+        <div class="step" data-x="3000" data-y="-1600" >
+            <img src="images/wolverine-or-batmen.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>Bitwise Or and Xor</strong></div>
+        </div>
+        
+        <div class="step" data-x="3000" data-y="-1200" >
+             In some cases the Bitwise Or <i>(|)</i> can be used in place of the Logical Or <i>(||)</i> for an increase in performance. <a href="http://jsperf.com/bitwise-or" target="_blank">jsPerf</a>
+        </div>
+
+        <div class="step" data-x="3000" data-y="-950" >
+             The Bitwise Xor operator <i>(^)</i> compares two bits and returns <i>1</i> if they are different or <i>0</i> if they are the same.
+        </div>
+
+        <div class="step" data-x="3000" data-y="-750" >
+              For Example:
+       
+              <pre class="brush: js; gutter: false; ">
+                alert(0^0); // 0
+                alert(0^1); // 1
+                alert(1^0); // 1
+                alert(1^1); // 0
+              </pre>
+        </div>
+
+        <div class="step" data-x="3000" data-y="-500" >
+             Similar to the Bitwise Or, the Bitwise Xor can out perform Logical Or but you need to keep in mind though Xor is exclusive.
+     
+             <pre class="brush: js; gutter: false; ">
+                alert(0^0); // 0
+                alert(0^1); // 1
+                alert(1^0); // 1
+                alert(1^1); // 0
+
+                alert(0||0); // 0
+                alert(0||1); // 1
+                alert(1||0); // 1
+                alert(1||1); // 1
+              </pre>
+        </div>
+
+        <div class="step" data-x="3000" data-y="-100" >
+             Xor can also be used in a self assignment, making it great for toggling. 
+             <pre class="brush: js; gutter: false; ">
+                var x = 0;
+
+                x ^= 1;
+                alert(x); // 1
+
+                x ^= 1;
+                alert(x); // 0
+              </pre>
+      
+             <a href="http://jsperf.com/xor-for-toggling" target="_blank">jsPerf</a> 
+        </div>
+
+        
+        
+
+        <!--Complement (~) and sentinels-->
+        <div class="step" data-x="4500" data-y="-1600" >
+            <img src="images/complimentary.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>Complement <i>(~)</i> and Sentinels</strong></div>            
+        </div> 
+
+        <div class="step" data-x="4500" data-y="-1200" >
+            The Complement <i>(~)</i> when used as a unary operator, first converts <i>n</i> to an <i>Integer</i> and then performs <i>-(n+1)</i>
+        </div> 
+        
+        <div class="step" data-x="4500" data-y="-1000" >
+            For example:
+     
+             <pre class="brush: js; gutter: false; ">
+                var x = 123,
+                    y = 456.789;
+
+                alert(~x); // -124
+                alert(~y); // -457
+              </pre>
+        </div>
+
+        <div class="step" data-x="4500" data-y="-750" >
+            This provides a nice oportunity when dealing with functions that return setinal valuse such as <i>String.indexOf()</i> or <i>jQuery.inArray()</i>
+        </div> 
+
+        <div class="step" data-x="4500" data-y="-450" >
+            These functions return an index between 0 and N for success and -1 for a failure. This usualy requires code to check the return value is >= 0
+        </div> 
+
+        <div class="step" data-x="4500" data-y="-200" >
+            With our friend the ~ we can remove the need for some characters and gain a tiny little performace boost in firefox.
+             <a href="http://jsperf.com/sentinel-values" target="_blank">jsPerf</a>  
+        </div> 
+
+        <div class="step" data-x="4500" data-y="200" >
+            <i>BONUS:</i> With all of the bitwise operators, any <i>Number</i> is converted to a 32 <i>Integer</i> before the operation takes place.
+            This means that a double tilde can also be used to floor a number. (If its positive).            
+        </div>
+
+        <div class="step" data-x="4500" data-y="500" >
+            There are also a couple of other ways to try and optimise flooring as can be seen from the <a href="http://jsperf.com/floor-vs-bitwise-2/2">jsPerf Tests</a>.            
+        </div>
+       
+        <!--Array.push-->
+        <div class="step" data-x="8000" data-y="-1600" >
+            <img src="images/push.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>Array.push</strong></div>            
+        </div> 
+
+        <div class="step" data-x="8000" data-y="-1200" >
+            It should be no suprise that using objects directly rather than their convenience methods would be faster.
+        </div> 
+
+        <div class="step" data-x="8000" data-y="-1000" >
+            One place we can take advanage of this is Array manipulation.
+        </div> 
+        
+        <div class="step" data-x="8000" data-y="-800" >
+            Quite often a loop will be used to push a subset of objects into an Array.
+        </div> 
+        
+        <div class="step" data-x="8000" data-y="-600" >
+            For Example:
+
+             <pre class="brush: js; gutter: false; ">
+                var x = [true, false, true, true, false, false, true],
+                    y = [];
+
+                for (var i = 0; i < x.length; i++) {
+    
+                    if (x[i]) {
+        
+                        y.push(x[i]);
+                    }
+                }
+              </pre>           
+        </div> 
+
+        <div class="step" data-x="8000" data-y="-300" >
+             In highly optimised code, it can be more benefitial to just directly add the new item to the end of the array.
+       
+           <a href="http://jsperf.com/array-push-2">jsPerf</a>
+        </div>
+
+        <!--Flags and Bitmasks-->
+        <div class="step" data-x="9500" data-y="-1700" >
+            <img src="images/bitmask.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>Flags and Bitmasks</strong></div>            
+        </div>        
+        
+        <div class="step" data-x="9500" data-y="-1200" >
+            Also refered to as Bit Twiddling.
+       
+            Usualy used in highly optimised code where memory usage is important.
+    
+            These sorts of practices are common in C++, games programming, etc.
+        </div>
+        
+        <div class="step" data-x="9500" data-y="-750" >
+            For Example:
+            <pre class="brush: js; gutter: false; ">
+                var permissions, 
+                    CREATE = 1 << 0,  // 0001
+                    READ = 1 << 1,    // 0010
+                    UPDATE = 1 << 2,  // 0100
+                    DELETE = 1 << 3,  // 1000
+                    CRUD = CREATE ^ READ ^ UPDATE ^ DELETE; // 1111
+
+                // Set permissions to full CRUD
+                permissions |= CRUD;
+                alert(permissions.toString(2)); // 1111
+
+                // Remove DELETE permision
+                permissions &= ~DELETE;
+                alert(permissions.toString(2)); // 0111
+
+                // Toggle CREATE permissions
+                permissions ^= CREATE;
+                alert(permissions.toString(2)); // 0110
+
+                permissions ^= CREATE;
+                alert(permissions.toString(2)); // 0111
+
+                // Check READ permissions
+                if (permissions & READ) // 1 (truthy)
+                {
+                    alert('Read all the things...');
+                }
+              </pre>
+        </div>
+
+        <div class="step" data-x="9500" data-y="-350" >
+            Not only is this method faster to execute, (<a href="http://jsperf.com/flags-vs-bools" target="_blank">jsPerf</a>) but uses much less memory compared to using objects and properties to represent the same information.
+        </div>       
+         
+    
+         <!--Memoization-->
+        <div class="step" data-x="11000" data-y="-1700" >
+            <img src="images/insanity.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>Memoization</strong></div>            
+        </div> 
+
+        <div class="step" data-x="11000" data-y="-1200" >
+            Memoization is a technique for caching the results of function calls to avoid additional computation.
+            And is probably the one performance technique from today you might use.           
+        </div> 
+    
+        <div class="step" data-x="11000" data-y="-800" >
+             Memoization is however not appropriate if the method's output changes over time, is unlikely to be called again with the same parameters or the computation is actualy faster that the added overhead.
+        </div> 
+
+        <div class="step" data-x="11000" data-y="-400" >
+            There are a lot of Memoization implementations, however Addy Osmani <a href="https://twitter.com/addyosmani" target="_blank">(@addyosmani)</a> has recently done a great writeup on the most performant implementation.
+        </div> 
+        
+        <div class="step" data-x="11000" data-y="0" >
+            I suggest if you want any further information on Memoization or why this implementation is the fastest check out his blog <a href="http://addyosmani.com/blog/faster-javascript-memoization/" target="_blank">Faster JavaScript Memoization For Improved Application Performance</a>
+        </div> 
+
+        <div class="step" data-x="11000" data-y="350" >
+            <pre class="brush: js; gutter: false; ">
+                /*
+                * memoize.js
+                * by @philogb and @addyosmani
+                * with further optimizations by @mathias
+                * and @DmitryBaranovsk
+                * perf tests: http://bit.ly/q3zpG3
+                * Released under an MIT license.
+                */
+                function memoize( fn ) {
+                    return function () {
+                        var args = Array.prototype.slice.call(arguments),
+                            hash = "",
+                            i = args.length;
+                        currentArg = null;
+                        while (i--) {
+                            currentArg = args[i];
+                            hash += (currentArg === Object(currentArg)) ?
+                            JSON.stringify(currentArg) : currentArg;
+                            fn.memoize || (fn.memoize = {});
+                        }
+                        return (hash in fn.memoize) ? fn.memoize[hash] :
+                        fn.memoize[hash] = fn.apply(this, args);
+                    };
+                }
+              </pre>
+        </div> 
+
+        <div class="step" data-x="11000" data-y="700" >
+            It should be no surprise Memoizing functionality such as the fibinacy sequence yeilds high perfrmance gains.
+            <a href="http://jsperf.com/memoization-2" target="_blank">jsPerf</a>
+        </div> 
+
+
+         <!-- Put it all together!-->
+        <div class="step" data-x="12500" data-y="-1700" >
+            <img src="images/HelloWorld.png" style="display: block; margin-left: auto; margin-right: auto;" />
+            <div style="text-align: center;"><strong>Now for a contrived example!</strong></div>            
+        </div> 
+
+        <div class="step" data-x="12500" data-y="-1100" >
+            Putting it all together.        
+  
+            <pre class="brush: js; gutter: false; ">
+                var GetAirports = function(filter, credentials) {
+
+                    var result = [],
+                        i = 0;
+
+                    // Check we are allowed to view airports
+                    if (credentials.canViewAirports) {
+
+                        // Check are allowed to search by Id and if an Id was entered
+                        if (credentials.canSearchById && parseInt(filter)) {
+                            return [airports[filter]];
+                        }
+
+                        filter = filter.toUpperCase();
+
+                        // Search for the filter anywhere in either the code, name or location properties
+                        for (i; i < airports.length; i++) {
+                            if (airports[i].code.indexOf(filter) >= 0 || 
+                                airports[i].name.toUpperCase().indexOf(filter) >= 0 || 
+                                airports[i].location.toUpperCase().indexOf(filter) >= 0) {
+
+                                // Add matches to the result
+                                result.push(airports[i]);
+                            }
+                        }
+
+                        return result;
+                    }
+                };
+              </pre>        
+        </div>
+        
+        <div class="step" data-x="12500" data-y="-600" >
+            Incremental implementation of bitwise changes. <a href="http://jsperf.com/airport-filter" target="_blank">jsPerf</a>.        
+        </div>
+
+        <div class="step" data-x="12500" data-y="-200" >
+            And now with memoization. <a href="http://jsperf.com/airport-filter/2" target="_blank">jsPerf</a>.        
+        </div>
+
+        <div class="step" data-x="12500" data-y="400" >
+            <img src="images/SuperEffective.png" style="display: block; margin-left: auto; margin-right: auto;" /> 
+        </div> 
+
+
+        <div class="step" data-x="14000" data-y="-1400" >
+           <img src="images/Twitter.png" style="float:left; margin:10px 10px 0 0;" /> 
+            <a href="https://twitter.com/ButlerMaurice" target="_blank">@butlermaurice</a>
+            <a href="http://mauricebutler.wordpress.com" target="_blank">mauricebutler.wordpress.com</a>
+            <a href="https://github.com/MauriceButler" target="_blank">github.com/MauriceButler</a>
+            Senior Analyst Programmer at Sunsuper
+        </div>
+
+    </div>
+
+    <div class="hint">
+        <div>An <a href="http://bartaz.github.com/impress.js/" target="_blank">impress.js</a> powered presentation
+        by <a href="http://twitter.com/butlermaurice" target="_blank">Maurice Butler</a></div>
+        <div>Use the spacebar, arrow keys, or the force to navigate.</div>
+    </div>
+
+    <script type="text/javascript" src="js/shCore.js"></script>
+    <script type="text/javascript" src="js/shBrushJScript.js"></script>
+    <script type="text/javascript">	    SyntaxHighlighter.all();</script>
+    <script type="text/javascript" src="js/impress.js"></script>
+
+</body>
+</html>
