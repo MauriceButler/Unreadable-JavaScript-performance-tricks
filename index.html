@@ -54,11 +54,11 @@
  
         <div class="step" data-x="1500" data-y="-1400" >
           <strong>Disclaimer: </strong>Most of the items I am going to go through are very situation dependant.
-           Most are only worth while inside loops or heavily utilised code (~500,000 ops/sec). Please don't use these all over the place... 
+           Most are only worthwhile inside loops or heavily utilised code (~500,000 ops/sec). Please don't use these all over the place... 
         </div>
 
         <div class="step" data-x="1500" data-y="-1000" >
-            If you havn't already heard of <a href="http://jsperf.com" target="_blank">jsPerf</a>, you need to check it out.			            
+            If you haven’t already heard of <a href="http://jsperf.com" target="_blank">jsPerf</a>, you need to check it out.			            
         </div>
         <div class="step" data-x="1500" data-y="-700" >
             From the site: <br />
@@ -73,7 +73,7 @@
         </div>
 
         <div class="step" data-x="1500" data-y="150" >
-            The unary + operator can be used to coerce all javascript types to a <i>Number</i>.           
+            The unary + operator can be used to coerce all JavaScript types to a <i>Number</i>.           
         </div>
 
         <div class="step" data-x="1500" data-y="375" >
@@ -156,7 +156,7 @@
         </div>
 
         <div class="step" data-x="3000" data-y="-100" >
-             Xor can also be used in a self assignment, making it great for toggling. 
+             Xor can also be used in a self-assignment, making it great for toggling. 
              <pre class="brush: js; gutter: false; ">
                 var x = 0;
 
@@ -196,15 +196,15 @@
         </div>
 
         <div class="step" data-x="4500" data-y="-750" >
-            This provides a nice oportunity when dealing with functions that return setinal valuse such as <i>String.indexOf()</i> or <i>jQuery.inArray()</i>
+            This provides a nice opportunity when dealing with functions that return sentinel values such as <i>String.indexOf()</i> or <i>jQuery.inArray()</i>
         </div> 
 
         <div class="step" data-x="4500" data-y="-450" >
-            These functions return an index between 0 and N for success and -1 for a failure. This usualy requires code to check the return value is >= 0
+            These functions return an index between 0 and N for success and -1 for a failure. This usually requires code to check the return value is >= 0
         </div> 
 
         <div class="step" data-x="4500" data-y="-200" >
-            With our friend the ~ we can remove the need for some characters and gain a tiny little performace boost in firefox.
+            With our friend the ~ we can remove the need for some characters and gain a tiny little performance boost in Firefox.
              <a href="http://jsperf.com/sentinel-values" target="_blank">jsPerf</a>  
         </div> 
 
@@ -224,11 +224,11 @@
         </div> 
 
         <div class="step" data-x="8000" data-y="-1200" >
-            It should be no suprise that using objects directly rather than their convenience methods would be faster.
+            It should be no surprise that using objects directly rather than their convenience methods would be faster.
         </div> 
 
         <div class="step" data-x="8000" data-y="-1000" >
-            One place we can take advanage of this is Array manipulation.
+            One place we can take advantage of this is Array manipulation.
         </div> 
         
         <div class="step" data-x="8000" data-y="-800" >
@@ -253,7 +253,7 @@
         </div> 
 
         <div class="step" data-x="8000" data-y="-300" >
-             In highly optimised code, it can be more benefitial to just directly add the new item to the end of the array.
+             In highly optimised code, it can be more beneficial to just directly add the new item to the end of the array.
        
            <a href="http://jsperf.com/array-push-2">jsPerf</a>
         </div>
@@ -265,9 +265,9 @@
         </div>        
         
         <div class="step" data-x="9500" data-y="-1200" >
-            Also refered to as Bit Twiddling.
+            Also referred to as Bit Twiddling.
        
-            Usualy used in highly optimised code where memory usage is important.
+            Usually used in highly optimised code where memory usage is important.
     
             These sorts of practices are common in C++, games programming, etc.
         </div>
@@ -286,7 +286,7 @@
                 permissions |= CRUD;
                 alert(permissions.toString(2)); // 1111
 
-                // Remove DELETE permision
+                // Remove DELETE permission
                 permissions &= ~DELETE;
                 alert(permissions.toString(2)); // 0111
 
@@ -322,11 +322,11 @@
         </div> 
     
         <div class="step" data-x="11000" data-y="-800" >
-             Memoization is however not appropriate if the method's output changes over time, is unlikely to be called again with the same parameters or the computation is actualy faster that the added overhead.
+             Memoization is however not appropriate if the method's output changes over time, is unlikely to be called again with the same parameters or the computation is actually faster that the added overhead.
         </div> 
 
         <div class="step" data-x="11000" data-y="-400" >
-            There are a lot of Memoization implementations, however Addy Osmani <a href="https://twitter.com/addyosmani" target="_blank">(@addyosmani)</a> has recently done a great writeup on the most performant implementation.
+            There are a lot of Memoization implementations, however Addy Osmani <a href="https://twitter.com/addyosmani" target="_blank">(@addyosmani)</a> has recently done a great write-up on the most performant implementation.
         </div> 
         
         <div class="step" data-x="11000" data-y="0" >
@@ -363,7 +363,7 @@
         </div> 
 
         <div class="step" data-x="11000" data-y="700" >
-            It should be no surprise Memoizing functionality such as the fibinacy sequence yeilds high perfrmance gains.
+            It should be no surprise Memoizing functionality such as the Fibonacci sequence yields high performance gains.
             <a href="http://jsperf.com/memoization-2" target="_blank">jsPerf</a>
         </div> 
 
