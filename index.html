@@ -1,21 +1,30 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8" />
+    
     <title>Confusing & completely unreadable JavaScript performance tricks that you will
         most probably never use, & some you might... | by Maurice Butler @butlermaurice
     </title>
 
     <link href="css/impress.css" rel="stylesheet" />
-    <link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+    <link href="css/shCoreDefault.css" rel="stylesheet" />
 
 </head>
-<body>
-    <div id="impress" class="impress-not-supported">
-        <div class="fallback-message">
-            Your trojan doesn't support impress.js. Get with the times and <a href="https://www.google.com/chrome">
-                install Chrome</a> already...
-        </div>
-
+<body class="impress-not-supported">
+	<div class="fallback-message">
+		Your trojan doesn't support impress.js. Get with the times and <a href="https://www.google.com/chrome">
+			install Chrome</a> already...
+	</div>
+	
+	<div id="impress">
+        
+		<audio id="joker" preload="auto autobuffer"> 
+		  <source src="steve_miller_the_joker.mp3" />
+		  <source src="steve_miller_the_joker.ogg" />
+		  <source src="steve_miller_the_joker.wav" />
+		</audio>
+		
         <div id="firstslide" class="step">
             Confusing & completely unreadable JavaScript performance tricks that you will most
             probably never use,
@@ -25,7 +34,7 @@
             & some you might...
         </div>
 
-        <div class="step" data-x="350" data-y="-250"  data-rotate="90">
+        <div id="whoami" class="step" data-x="350" data-y="-250"  data-rotate="90">
             So who am I?
         </div>
 
@@ -443,6 +452,9 @@
     <script type="text/javascript" src="js/shBrushJScript.js"></script>
     <script type="text/javascript">	    SyntaxHighlighter.all();</script>
     <script type="text/javascript" src="js/impress.js"></script>
-
+	<script>
+	impress().init();
+	document.getElementById("whoami").addEventListener('impress:stepleave',function(){document.getElementById('joker').play();});
+	</script>
 </body>
 </html>
